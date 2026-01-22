@@ -1,0 +1,14 @@
+{
+  "anthropic": {
+    "type": "api",
+    "key": "ANTHROPIC-API-KEY"
+  },
+  "google": {
+    "type": "api",
+    "key": "GEMINI-API-KEY"
+  },
+  "togetherai": {
+    "type": "api",
+    "key": "TOGETHER-API-KEY"
+  }
+}

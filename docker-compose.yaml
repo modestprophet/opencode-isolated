@@ -1,0 +1,32 @@
+services:
+  opencode:
+    image: opencode-isolated
+    build: .
+    container_name: opencode-isolated
+    stdin_open: true
+    tty: true
+    # We remove the 'user:' directive because the entrypoint handles the switch
+    environment:
+      - CHROME_PATH=/usr/bin/chromium
+      - HOST_UID=${UID:-1000}
+      - HOST_GID=${GID:-1000}
+    volumes:
+      # - /path/to/your/local/code:/app
+      - ~/projects:/projects
+      - opencode_data:/home/node/.local/share/opencode
+      # Ensure config files exist on host before mounting, or they will be created as directories
+      - ~/.local/share/opencode/auth.json:/home/node/.local/share/opencode/auth.json
+      - ~/.config/opencode/opencode-isolated.jsonc:/home/node/.config/opencode/opencode.jsonc
+      - uv_cache:/home/node/.cache/uv
+      - go_cache:/home/node/go/pkg/mod
+    networks:
+      - isolated-dev
+
+volumes:
+  opencode_data:
+  uv_cache:
+  go_cache:
+
+networks:
+  isolated-dev:
+    driver: bridge
