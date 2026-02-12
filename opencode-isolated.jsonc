@@ -33,7 +33,7 @@
       "command": ["npx", "-y", "mcp-searxng"],
       "enabled": true,
       "environment": {
-        "SEARXNG_URL": "https://10.0.0.40:30053"
+        "SEARXNG_URL": "http://10.0.0.40:30053"
       }
     }
   },
