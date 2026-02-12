@@ -78,6 +78,48 @@ Python: uv for ultra-fast dependency management.
 Go: Go 1.23 stable.
 DB Tools: psql (PostgreSQL client) and libpq-dev.
 
+## Python Virtual Environment Support
+
+The container automatically detects and activates Python virtual environments when you launch OpenCode in a project directory. This ensures that OpenCode has access to your project's installed dependencies.
+
+### How It Works
+
+When you start OpenCode with a project path, the entrypoint script will:
+
+1. Check the project directory for a virtual environment in priority order:
+   - `.venv` (recommended by uv and modern Python projects)
+   - `venv` (traditional naming)
+   - `env` (alternative naming)
+
+2. If a valid virtual environment is found, it will be automatically activated before OpenCode starts
+
+3. All Python commands executed by OpenCode will use the activated virtual environment
+
+### Example
+
+```bash
+# Your project structure
+/projects/my-python-project/
+  ├── .venv/              # Created with: uv venv
+  ├── pyproject.toml
+  └── src/
+
+# Launch OpenCode
+docker compose run --rm opencode /projects/my-python-project
+
+# Output will show:
+# Found Python virtual environment at: /projects/my-python-project/.venv
+# Activating virtual environment...
+# Virtual environment activated successfully
+```
+
+### Notes
+
+- **uv compatibility:** Works seamlessly with virtual environments created by `uv venv`
+- **Go projects:** Virtual environment detection has no impact on Go projects
+- **No venv:** If no virtual environment is found, OpenCode will use the system Python
+- **Single project:** Virtual environment activation persists for the entire OpenCode session
+
 ## Troubleshooting Volume Permissions
 If you encounter permission issues writing to your project folder, ensure you export your local user IDs before running:
 
